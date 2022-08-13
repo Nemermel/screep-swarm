@@ -15,7 +15,7 @@ export enum Role {
 export const roleBodyParts = new Map<Role, BodyPartConstant[]>([
   [Role.basicHarvester, [WORK, CARRY, MOVE]],
   [Role.harvester, [WORK, WORK, WORK, CARRY, MOVE]],
-  [Role.upgrader, [WORK, WORK, WORK, CARRY, MOVE]],
+  [Role.upgrader, [WORK, CARRY, MOVE]],
   [Role.builder, [WORK, WORK, WORK, CARRY, MOVE]],
   [Role.repairer, [WORK, WORK, WORK, CARRY, MOVE]],
 ]);
@@ -38,7 +38,27 @@ const harvesterActions = (creep: Creep) => {
 
 
 const upgraderActions = (creep: Creep) => {
+  console.log("Upgrader free capacity ", creep.name, creep.store.getFreeCapacity());
+  console.log("Upgrader max capacity ", creep.name, creep.store.getCapacity());
+  if (creep.room.controller) {
+    if (creep.store.getFreeCapacity() == creep.store.getCapacity()) {
+      //TODO!: store spawn in creep memory
+      if (creep.withdraw(Game.spawns['Spawn1'], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(Game.spawns['Spawn1']);
+      }
 
+      if (creep.withdraw(Game.spawns['Spawn1'], RESOURCE_ENERGY) == ERR_NOT_ENOUGH_ENERGY) {
+        harvesterActions(creep);
+      }
+    }
+
+    // TODO!: getFreeCapacity() should be matched with getCapacity()
+    if (creep.store.getUsedCapacity() > 0) {
+      if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+        creep.moveTo(creep.room.controller);
+      }
+    }
+  }
 };
 
 const builderActions = (creep: Creep) => {

@@ -22,34 +22,42 @@ export const loop = ErrorMapper.wrapLoop(() => {
   const creeps = Game.creeps;
   const harvesters = [];
   const builders = [];
+  const upgraders: Creep[] = [];
 
   for (let i in creeps) {
     // @ts-ignore
     if (creeps[i].memory.role == Role.basicHarvester || creeps[i].memory.role == Role.harvester) {
       harvesters.push(creeps[i]);
     }
-  }
 
-  for (const spawnID in spawns) {
-    const spawn = spawns[spawnID];
-    if (spawn.store[RESOURCE_ENERGY] > spawn.store.getCapacity(RESOURCE_ENERGY) * 0.75) {
-      if (builders.length < 2 && harvesters.length > 0) {
-        spawnCreep(Role.builder, Role.builder);
-      }
+    //@ts-ignore
+    if (creeps[i].memory.role == Role.upgrader) {
+      upgraders.push(creeps[i]);
     }
   }
 
   if (harvesters.length < 3) {
     const status = spawnCreep(Role.harvester, Role.harvester);
-    if (status == ERR_NOT_ENOUGH_ENERGY) {
-      spawnCreep(Role.basicHarvester, Role.basicHarvester);
-    }
+
+        if (status == ERR_NOT_ENOUGH_ENERGY) {
+        spawnCreep(Role.basicHarvester, Role.basicHarvester);
+      }
+  }
+
+  if (upgraders.length < 2 && harvesters.length > 1) {
+    //TODO!: Upgraders just stays at the spawn, without moving to the controller
+    spawnCreep(Role.upgrader, Role.upgrader);
   }
 
 
   for (let i in harvesters) {
     // @ts-ignore
     roleActions.get(Role.basicHarvester)(harvesters[i]);
+  }
+
+  for (let i in upgraders) {
+    // @ts-ignore
+    roleActions.get(Role.upgrader)(upgraders[i]);
   }
 
   // Automatically delete memory of missing creeps
