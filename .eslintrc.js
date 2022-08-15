@@ -18,7 +18,17 @@ module.exports = {
     Room: true,
     RawMemory: true,
     Constants: true,
-    InterShardMemory: true
+    InterShardMemory: true,
+    BodyPartConstant: true,
+    WORK: true,
+    CARRY: true,
+    MOVE: true,
+    CLAIM: true,
+    ATTACK: true,
+    RANGED_ATTACK: true,
+    TOUGH: true,
+    HEAL: true,
+    StructureSpawn: true
   },
   parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "import"],

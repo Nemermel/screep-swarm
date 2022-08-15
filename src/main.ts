@@ -1,5 +1,6 @@
 import { ErrorMapper } from "utils/ErrorMapper";
 import { Overseer } from "./Screeps/Overseer/Overseer";
+import Drone from "./Screeps/Drone/Drone";
 
 declare global {
   // Syntax for adding proprties to `global` (ex "global.log")
@@ -7,6 +8,7 @@ declare global {
     interface Global {
       log: any;
       Game: Game;
+      BodyPartConstant: BodyPartConstant;
     }
   }
 }
@@ -17,6 +19,11 @@ export const loop = ErrorMapper.wrapLoop(() => {
   console.log(`Current game tick is ${Game.time}`);
   const overseer = new Overseer();
   overseer.run();
+
+  if (Game.creeps.test_dummy1) {
+    console.log("Accessing drone: test_dummy1");
+    new Drone("test_dummy1");
+  }
 
   // Automatically delete memory of missing creeps
   for (const name in Memory.creeps) {

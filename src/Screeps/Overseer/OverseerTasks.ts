@@ -1,3 +1,5 @@
+import { DroneRoleName } from "../Drone/DroneRoleName";
+
 export type OverseerTask = (...args: any[]) => void;
 
 export enum OverseerTaskNames {
@@ -19,7 +21,8 @@ export enum OverseerTaskNames {
   CreateRoad = "createRoad",
   CreateWall = "createWall",
   CreateSourceKeeperLair = "createSourceKeeperLair",
-  CreateObserver = "createObserver"
+  CreateObserver = "createObserver",
+  CreateCreepByRole = "createCreepByRole"
 }
 
 export type OverseerTasksMap = {
@@ -47,5 +50,8 @@ export const OverseerTasks: OverseerTasksMap = {
   createWall(...args: any): void {},
   createColony(...args: any): void {
     console.log("createColony was executed");
+  },
+  createCreepByRole(spawn: StructureSpawn, role: DroneRoleName): void {
+    console.log("createCreepByRole was executed");
   }
 };
