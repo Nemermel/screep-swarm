@@ -11,10 +11,26 @@ module.exports = {
     "plugin:import/warnings",
     "plugin:import/typescript"
   ],
-  parserOptions: {
-    project: "tsconfig.json",
-    sourceType: "module"
+  globals: {
+    Game: true,
+    Memory: true,
+    PathFinder: true,
+    Room: true,
+    RawMemory: true,
+    Constants: true,
+    InterShardMemory: true,
+    BodyPartConstant: true,
+    WORK: true,
+    CARRY: true,
+    MOVE: true,
+    CLAIM: true,
+    ATTACK: true,
+    RANGED_ATTACK: true,
+    TOUGH: true,
+    HEAL: true,
+    StructureSpawn: true
   },
+  parser: "@typescript-eslint/parser",
   plugins: ["@typescript-eslint", "import"],
   settings: {
     "import/parsers": {
@@ -80,6 +96,6 @@ module.exports = {
     "quote-props": "off",
     radix: "error",
     "sort-imports": "warn",
-    "spaced-comment": "error",
+    "spaced-comment": "error"
   }
 };
